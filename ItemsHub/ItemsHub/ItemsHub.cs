@@ -1,7 +1,8 @@
 ﻿using System.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
-// ReSharper disable once CheckNamespace
-namespace Windows.UI.Xaml.Controls
+namespace ItemsHub
 {
     /// <summary>
     /// Represents a bindable template-driven Hub control.
