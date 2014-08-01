@@ -82,8 +82,9 @@ namespace ItemsHub
                     {
                         var section = new HubSection {DataContext = item, Header = item};
 
-                        var template = hub.ItemTemplate;
-                        section.ContentTemplate = template;
+                        section.ContentTemplate = hub.ItemTemplate;
+                        section.HeaderTemplate = hub.ItemHeaderTemplate;
+
                         hub.Sections.Add(section);
                     }
                 }
