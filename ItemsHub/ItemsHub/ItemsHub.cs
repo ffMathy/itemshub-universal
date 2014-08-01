@@ -35,6 +35,31 @@ namespace ItemsHub
             }
         }
 
+        public DataTemplate ItemHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemHeaderTemplateProperty); }
+            set { SetValue(ItemHeaderTemplateProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemHeaderTemplateProperty =
+            DependencyProperty.Register("ItemHeaderTemplate", typeof(DataTemplate), typeof(ItemsHub), new PropertyMetadata(null, ItemHeaderTemplateChanged));
+
+        private static void ItemHeaderTemplateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            var hub = dependencyObject as ItemsHub;
+            if (hub != null)
+            {
+                var template = e.NewValue as DataTemplate;
+                if (template != null)
+                {
+                    foreach (var section in hub.Sections)
+                    {
+                        section.HeaderTemplate = template;
+                    }
+                }
+            }
+        }
+
         public IEnumerable ItemsSource
         {
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }
