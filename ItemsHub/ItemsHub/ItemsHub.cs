@@ -34,21 +34,21 @@ namespace Windows.UI.Xaml.Controls
             }
         }
 
-        public IList ItemsSource
+        public IEnumerable ItemsSource
         {
-            get { return (IList)GetValue(ItemsSourceProperty); }
+            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(IList), typeof(ItemsHub), new PropertyMetadata(null, ItemsSourceChanged));
+            DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(ItemsHub), new PropertyMetadata(null, ItemsSourceChanged));
 
         private static void ItemsSourceChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var hub = dependencyObject as ItemsHub;
             if (hub != null)
             {
-                var items = e.NewValue as IList;
+                var items = e.NewValue as IEnumerable;
                 if (items != null)
                 {
                     hub.Sections.Clear();
