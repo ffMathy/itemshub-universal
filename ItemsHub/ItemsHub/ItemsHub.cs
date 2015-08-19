@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,8 +17,17 @@ namespace ItemsHub
             set { SetValue(ItemTemplateProperty, value); }
         }
 
+        public DataTemplateSelector ItemTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(ItemTemplateSelectorProperty); }
+            set { SetValue(ItemTemplateSelectorProperty, value); }
+        }
+
         public static readonly DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(ItemsHub), new PropertyMetadata(null, ItemTemplateChanged));
+
+        public static readonly DependencyProperty ItemTemplateSelectorProperty =
+            DependencyProperty.Register("ItemTemplateSelector", typeof(DataTemplateSelector), typeof(ItemsHub), new PropertyMetadata(null, ItemTemplateSelectorChanged));
 
         private static void ItemTemplateChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -33,6 +43,11 @@ namespace ItemsHub
                     }
                 }
             }
+        }
+
+        private static void ItemTemplateSelectorChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         public DataTemplate ItemHeaderTemplate
@@ -82,7 +97,14 @@ namespace ItemsHub
                     {
                         var section = new HubSection {DataContext = item, Header = item};
 
-                        section.ContentTemplate = hub.ItemTemplate;
+                        if (hub.ItemTemplateSelector != null)
+                        {
+                            section.ContentTemplate = hub.ItemTemplateSelector.SelectTemplate(item, dependencyObject);
+                        }
+                        else
+                        {
+                            section.ContentTemplate = hub.ItemTemplate;
+                        }
                         section.HeaderTemplate = hub.ItemHeaderTemplate;
 
                         hub.Sections.Add(section);
